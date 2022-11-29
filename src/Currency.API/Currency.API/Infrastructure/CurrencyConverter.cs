@@ -1,18 +1,25 @@
-﻿namespace Currency.API.Infrastructure;
+﻿using Currency.API.Models;
+using IJsonHelper = Currency.API.Helpers.IJsonHelper;
+
+namespace Currency.API.Infrastructure;
 
 public class CurrencyConverter : ICurrencyConverter
 {
-    public Task<decimal> ConvertCurrency(string convertFrom, string convertTo, decimal amountFrom)
+    public Task<decimal> ConvertCurrency(IJsonHelper jsonHelper, string convertFrom, string convertTo, decimal amountFrom)
     {
-        var rate = GetExchangeRate(convertFrom, convertTo).Result;
+        var rate = GetExchangeRates(jsonHelper, convertFrom).Result;
 
-        var result = rate * amountFrom;
+        var result = amountFrom * rate.Rates[$"{convertTo}"];
 
         return Task.FromResult(result);
     }
 
-    public Task<decimal> GetExchangeRate(string convertFrom, string convertTo)
+    public Task<ExchangeRates?> GetExchangeRates(IJsonHelper jsonHelper, string convertFrom)
     {
-        throw new NotImplementedException();
+        var exchangeRatesUrl = $"https://api.exchangerate.host/latest?base={convertFrom}";
+
+        var exchangeRates = jsonHelper.DownloadSerializedJson(exchangeRatesUrl);
+
+        return exchangeRates;
     }
 }

@@ -1,17 +1,17 @@
+using Currency.API.Helpers;
 using Currency.API.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ICurrencyConverter, CurrencyConverter>();
+builder.Services.AddScoped<IJsonHelper, JsonHelper>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -20,9 +20,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("api/convert-currency", (ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amountFrom) =>
+app.MapPost("api/converted-currency", (IJsonHelper jsonHelper, ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amountFrom) =>
 {
-    var results = currencyConverter.ConvertCurrency(convertFrom, convertTo, amountFrom);
+    var results = currencyConverter.ConvertCurrency(jsonHelper, convertFrom, convertTo, amountFrom);
 
     return results;
 
