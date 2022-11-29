@@ -20,9 +20,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("api/converted-currency", (IJsonHelper jsonHelper, ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amountFrom) =>
+app.MapPost("api/convert-currency", (IJsonHelper jsonHelper, ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amount) =>
 {
-    var results = currencyConverter.ConvertCurrency(jsonHelper, convertFrom, convertTo, amountFrom);
+    var results = currencyConverter.ConvertCurrency(jsonHelper, convertFrom, convertTo, amount);
 
     return results;
 

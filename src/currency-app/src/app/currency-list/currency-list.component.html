@@ -1,7 +1,10 @@
-<ul class="currencies">
-    <li *ngFor="let currency of currencies">
-        <button [class.selected]="currency === selectedCurrency" type="button"(click)="onSelect(currency)" >
-            <span class="name">{{currency.name}}</span>
-        </button>
-    </li>
-</ul>
+<select [(ngModel)]="currencies">
+    <option *ngFor="let currency of currencies" 
+        [value]="currency.name" 
+        [attr.selected]="currency === selectedCurrency" type="option"(click)="onSelect(currency)">
+        {{currency.name}}
+    </option>
+</select>
+
+
+

@@ -1,6 +1,21 @@
 <h1>{{title}}</h1>
-<h2>Convert From: </h2>
-<app-currency-list></app-currency-list>
 
-<h2>Convert To: </h2>
-<app-currency-list></app-currency-list>
+<div class="main-container">
+    <div class="selection-container">
+        CONVERT
+        <input type="text">
+        <app-currency-list></app-currency-list>        
+        TO
+        <app-currency-list></app-currency-list>
+    </div>
+
+    <div class="result-container">
+        <output type="text">
+            RESULT:
+        </output>
+    </div>
+
+    <button (click)="convert()">Submit</button>
+
+    
+</div>

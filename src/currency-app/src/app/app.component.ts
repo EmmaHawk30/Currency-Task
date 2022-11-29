@@ -9,5 +9,15 @@ import { CurrencyApiService } from './services/currencyApi.service';
 export class AppComponent {
   title = 'Currency Converter';
 
+  conversion = 
+
+  convertFrom = 'GBP';
+  convertTo = 'GBP';
+  amount: string = "1";
+
   constructor(private currencyApiService : CurrencyApiService) { }
+
+  convert() {
+    this.currencyApiService.convertAmount(this.conversion);
+  }
 }
