@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ConversionService } from './services/conversion.service'; 
+import { CurrencyApiService } from './services/currencyApi.service'; 
 
 @Component({
   selector: 'app-root',
@@ -9,5 +9,5 @@ import { ConversionService } from './services/conversion.service';
 export class AppComponent {
   title = 'Currency Converter';
 
-  constructor(private conversionservice : ConversionService) { }
+  constructor(private currencyApiService : CurrencyApiService) { }
 }

@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CurrencyListComponent } from './currency-list/currency-list.component';
-import { ConversionService } from './services/conversion.service';
+import { CurrencyApiService } from './services/currencyApi.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { ConversionService } from './services/conversion.service';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ConversionService],
+  providers: [CurrencyApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
