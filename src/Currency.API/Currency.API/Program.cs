@@ -1,4 +1,3 @@
-using Currency.API.Helpers;
 using Currency.API.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +7,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ICurrencyConverter, CurrencyConverter>();
-builder.Services.AddScoped<IJsonHelper, JsonHelper>();
+builder.Services.AddScoped<IJsonHandler, JsonHandler>();
 
 var app = builder.Build();
 
@@ -20,9 +19,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("api/convert-currency", (IJsonHelper jsonHelper, ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amount) =>
+app.MapPost("api/convert-currency", (IJsonHandler jsonHandler, ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amount) =>
 {
-    var results = currencyConverter.ConvertCurrency(jsonHelper, convertFrom, convertTo, amount);
+    var results = currencyConverter.ConvertCurrency(jsonHandler, convertFrom, convertTo, amount);
 
     return results;
 

@@ -1,24 +1,36 @@
-﻿using Currency.API.Models;
-using IJsonHelper = Currency.API.Helpers.IJsonHelper;
+﻿using Currency.API.Exceptions;
+using Currency.API.Models;
 
 namespace Currency.API.Infrastructure;
 
 public class CurrencyConverter : ICurrencyConverter
 {
-    public Task<decimal> ConvertCurrency(IJsonHelper jsonHelper, string convertFrom, string convertTo, decimal amountFrom)
+    public Task<decimal> ConvertCurrency(IJsonHandler jsonHelper, string convertFrom, string convertTo, decimal amount)
     {
-        var rate = GetExchangeRates(jsonHelper, convertFrom).Result;
+        try
+        {
+            var exchangeRates = GetExchangeRates(jsonHelper, convertFrom).Result;
 
-        var result = amountFrom * rate.Rates[$"{convertTo}"];
+            if (exchangeRates is null)
+            {
+                throw new CurrencyConverterException("Could not get exchange rates");
+            }
 
-        return Task.FromResult(result);
+            var result = amount * exchangeRates.Rates[$"{convertTo}"];
+
+            return Task.FromResult(result);
+        }
+        catch (Exception ex)
+        {
+            throw new CurrencyConverterException($"Could not convert {convertFrom} to {convertTo}", ex);
+        }
     }
 
-    public Task<ExchangeRates?> GetExchangeRates(IJsonHelper jsonHelper, string convertFrom)
+    public async Task<ExchangeRates> GetExchangeRates(IJsonHandler jsonHandler, string convertFrom)
     {
         var exchangeRatesUrl = $"https://api.exchangerate.host/latest?base={convertFrom}";
 
-        var exchangeRates = jsonHelper.DownloadSerializedJson(exchangeRatesUrl);
+        var exchangeRates = await jsonHandler.DownloadSerializedJson(exchangeRatesUrl);
 
         return exchangeRates;
     }
