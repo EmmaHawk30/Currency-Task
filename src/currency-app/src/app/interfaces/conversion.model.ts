@@ -1,5 +1,5 @@
-export interface Conversion{
-    convertFrom: string;
-    convertTo: string;
-    amount: number;
+export class Conversion{
+    convertFrom!: string;
+    convertTo!: string;
+    amount!: number;
   }

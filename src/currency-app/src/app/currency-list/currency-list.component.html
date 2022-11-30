@@ -1,4 +1,4 @@
-<select [(ngModel)]="currencies">
+<select (ngModel)="currencies">
     <option *ngFor="let currency of currencies" 
         [value]="currency.name" 
         [attr.selected]="currency === selectedCurrency" type="option"(click)="onSelect(currency)">

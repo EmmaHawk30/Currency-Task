@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Conversion } from './interfaces/conversion.model';
 import { CurrencyApiService } from './services/currencyApi.service'; 
 
 @Component({
@@ -9,15 +10,17 @@ import { CurrencyApiService } from './services/currencyApi.service';
 export class AppComponent {
   title = 'Currency Converter';
 
-  conversion = 
-
-  convertFrom = 'GBP';
-  convertTo = 'GBP';
-  amount: string = "1";
+  conversion: Conversion = {
+    convertFrom: "GBP",
+    convertTo: "GBP",
+    amount: 1 
+  };
 
   constructor(private currencyApiService : CurrencyApiService) { }
 
-  convert() {
-    this.currencyApiService.convertAmount(this.conversion);
+  convertCurrency() {
+    this.currencyApiService.convert(this.conversion).subscribe((response: any) => {
+      console.log(response);
+    });
   }
 }
