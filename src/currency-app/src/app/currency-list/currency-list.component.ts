@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CURRENCIES } from '../currencies';
 import { Currency } from '../currency';
+import { CurrencyApiService } from '../services/currencyApi.service';
 
 @Component({
   selector: 'app-currency-list',
@@ -11,15 +12,14 @@ import { Currency } from '../currency';
 export class CurrencyListComponent implements OnInit {
 
   currencies = CURRENCIES;
-  selectedCurrency?: Currency;
+  selectedCurrency?: string;
 
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onSelect(currency: Currency): void {
-    this.selectedCurrency = currency;
+    this.selectedCurrency = currency.name;
   }
 }
 

@@ -63,7 +63,8 @@
               "browserTarget": "currency-app:build:production"
             },
             "development": {
-              "browserTarget": "currency-app:build:development"
+              "browserTarget": "currency-app:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

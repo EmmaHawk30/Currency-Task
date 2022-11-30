@@ -20,6 +20,7 @@ export class AppComponent {
 
   convertCurrency() {
     this.currencyApiService.convert(this.conversion).subscribe((response: any) => {
+      this.conversion = response;
       console.log(response);
     });
   }

@@ -1,5 +1,5 @@
 export class Conversion{
-    convertFrom!: string;
-    convertTo!: string;
-    amount!: number;
+    public convertFrom!: string;
+    public convertTo!: string;
+    public amount!: number;
   }

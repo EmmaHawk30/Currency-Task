@@ -8,6 +8,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ICurrencyConverter, CurrencyConverter>();
 builder.Services.AddScoped<IJsonHandler, JsonHandler>();
+builder.Services.AddScoped<HttpClient, HttpClient>();
+
+builder.Services.AddCors(options => options.AddPolicy("CorsApi", builder =>
+{
+    builder.WithOrigins("http://localhost:4200", "http://www.currency-converter.com")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
 
 var app = builder.Build();
 
@@ -18,6 +26,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsApi");
 
 app.MapPost("api/convert-currency", (IJsonHandler jsonHandler, ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amount) =>
 {

@@ -6,16 +6,18 @@ namespace Currency.API.Infrastructure;
 
 public class JsonHandler : IJsonHandler
 {
+    private readonly HttpClient _client;
     private readonly JsonSerializerOptions _jsonOptions;
 
-    public JsonHandler()
+    public JsonHandler(HttpClient client)
     {
+        _client = client;
         _jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
     }
 
     public async Task<ExchangeRates> DownloadSerializedJson(string url)
     {
-        using var client = new HttpClient();
+        using var client = _client;
 
         var urlString = string.Empty;
         var json = string.Empty;
