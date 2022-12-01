@@ -16,6 +16,8 @@ export class AppComponent {
     amount: 1 
   };
 
+  // TODO: Change values based on selection
+
   constructor(private currencyApiService : CurrencyApiService) { }
 
   convertCurrency() {
