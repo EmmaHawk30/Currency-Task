@@ -5,11 +5,18 @@ namespace Currency.API.Infrastructure;
 
 public class CurrencyConverter : ICurrencyConverter
 {
-    public Task<decimal> ConvertCurrency(IJsonHandler jsonHelper, string convertFrom, string convertTo, decimal amount)
+    private readonly IJsonHandler _jsonHandler;
+
+    public CurrencyConverter(IJsonHandler jsonHandler)
+    {
+        _jsonHandler = jsonHandler;
+    }
+
+    public Task<decimal> ConvertCurrency(string convertFrom, string convertTo, decimal amount)
     {
         try
         {
-            var exchangeRates = GetExchangeRates(jsonHelper, convertFrom).Result;
+            var exchangeRates = GetExchangeRates(convertFrom).Result;
 
             if (exchangeRates is null)
             {
@@ -26,11 +33,11 @@ public class CurrencyConverter : ICurrencyConverter
         }
     }
 
-    public async Task<ExchangeRates> GetExchangeRates(IJsonHandler jsonHandler, string convertFrom)
+    public async Task<ExchangeRates> GetExchangeRates(string convertFrom)
     {
         var exchangeRatesUrl = $"https://api.exchangerate.host/latest?base={convertFrom}";
 
-        var exchangeRates = await jsonHandler.DownloadSerializedJson(exchangeRatesUrl);
+        var exchangeRates = await _jsonHandler.DownloadSerializedJson(exchangeRatesUrl);
 
         return exchangeRates;
     }

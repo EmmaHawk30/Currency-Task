@@ -22,23 +22,24 @@ public class JsonHandler : IJsonHandler
         var urlString = string.Empty;
         var json = string.Empty;
 
+        ExchangeRates? result;
+
         try
         {
             urlString = await client.GetStringAsync(url);
 
-            var result = !string.IsNullOrEmpty(urlString) ? JsonSerializer.Deserialize<ExchangeRates>(urlString, _jsonOptions) : new ExchangeRates();
-
-            if (result is null)
-            {
-                throw new JsonHandlerException("Could not deserialize url string to an ExchangeRates object");
-            }
-
-            return result;
-
+            result = !string.IsNullOrEmpty(urlString) ? JsonSerializer.Deserialize<ExchangeRates>(urlString, _jsonOptions) : null;
         }
         catch (Exception ex)
         {
-            throw new JsonHandlerException($"Could not retrieve data from {url}", ex);
+            throw new JsonHandlerException("Could not deserialize url string to an ExchangeRates object", ex);
         }
+
+        if (result is null)
+        {
+            throw new JsonHandlerException("Exchange rate data is null");
+        }
+
+        return result;
     }
 }

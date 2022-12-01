@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ICurrencyConverter, CurrencyConverter>();
+builder.Services.AddScoped<ICurrencyConverter, CurrencyConverter>();
 builder.Services.AddScoped<IJsonHandler, JsonHandler>();
 builder.Services.AddScoped<HttpClient, HttpClient>();
 
@@ -29,9 +29,9 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsApi");
 
-app.MapPost("api/convert-currency", (IJsonHandler jsonHandler, ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amount) =>
+app.MapPost("api/convert-currency", (ICurrencyConverter currencyConverter, string convertFrom, string convertTo, decimal amount) =>
 {
-    var results = currencyConverter.ConvertCurrency(jsonHandler, convertFrom, convertTo, amount);
+    var results = currencyConverter.ConvertCurrency(convertFrom, convertTo, amount);
 
     return results;
 
